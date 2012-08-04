@@ -16,7 +16,7 @@ To begin listening for events, set up LocalConnection and call the
       name: 'mycookiename'
     });
     // start listening
-    t.listen();start
+    t.listen();
 
 Then, add some callbacks. Callbacks listen for events sent by other
 LocalConnections using the same name.
