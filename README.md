@@ -13,18 +13,18 @@ To begin listening for events, set up LocalConnection and call the
 `listen()` method.
 
     var t = new LocalConnection({
-			name: 'mycookiename'
-		});
-		// start listening
-		t.listen();start
+      name: 'mycookiename'
+    });
+    // start listening
+    t.listen();start
 
 Then, add some callbacks. Callbacks listen for events sent by other
 LocalConnections using the same name.
 
     // take the response and log it
     t.addCallback('log', function(msg) {
-			document.getElementById('log').innerHTML += msg+'<br />';
-		});
+      document.getElementById('log').innerHTML += msg+'<br />';
+    });
 
 ### Sender
 
@@ -32,10 +32,10 @@ To send data to the callback we just set up, simply call the `send()`
 method.
 
     var t = new LocalConnection({
-			name: 'mycookiename'
-		});
+      name: 'mycookiename'
+    });
     // log some stuff!
-		t.send('log', 'Come at me bro');
+    t.send('log', 'Come at me bro');
 
 ## Examples
 
