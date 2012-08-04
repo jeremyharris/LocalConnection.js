@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LocalConnection Sender</title>
+		<meta charset="UTF-8" />
+		<script src="../LocalConnection.js"></script>
+		<script>
+			var t = new LocalConnection({
+				name: 'testcallback'
+			});
+
+			// callbacks
+			function sendLog() {
+				var msg = document.getElementById('msg').value;
+				t.send('log', msg);
+			}
+			function sendScream(msg) {
+				t.send('scream', msg);
+			}
+
+			// simple poll
+			this.poll = function() {
+				var now = new Date();
+				var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+				var color = colors[Math.ceil(now.getSeconds()/10)-1];
+				t.send('time', now.getTime(), color);
+				setTimeout(this.poll, 1000);
+			}
+			setTimeout(this.poll, 1000);
+		</script>
+	</head>
+	<body>
+		<div>
+			<input type="text" name="msg" id="msg" placeholder="Type a message here" />
+			<button onclick="javascript:sendLog()">Log</button>
+			<button onclick="javascript:sendScream(document.getElementById('msg').value)">Send Alert</button>
+		</div>
+		<div>
+			<button onclick="javascript:sendScream()">Alert Scoped Var</button>
+		</div>
+		<div
+	</body>
+</html>

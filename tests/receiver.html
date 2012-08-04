@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LocalConnection Receiver</title>
+		<meta charset="UTF-8" />
+		<script src="../LocalConnection.js"></script>
+		<script>
+			this.message = 'Scoped!';
+			this.scream = function(msg) {
+				msg = msg || this.message;
+				window.alert(msg);
+			}
+
+			var t = new LocalConnection({
+				name: 'testcallback'
+			});
+			// start listening
+			t.listen();
+			
+			// this example uses an anonymous function
+			t.addCallback('log', function(msg) {
+				document.getElementById('log').innerHTML += msg+'<br />';
+			});
+
+			// this example uses a scoped function
+			t.addCallback('scream', this.scream, this);
+
+			// a simple clock
+			t.addCallback('time', function(timestamp, color) {
+				var now = new Date(Number(timestamp));
+
+				var h = now.getHours();
+				if (h < 10) {
+					h = '0'+h;
+				}
+				var m = now.getMinutes();
+				if (m < 10) {
+					m = '0'+m;
+				}
+				var s = now.getSeconds();
+				if (s < 10) {
+					s = '0'+s;
+				}
+
+				document.getElementById('time').innerHTML = h+':'+m+':'+s;
+				document.getElementById('time').style.color = color;
+			});
+		</script>
+		<style>
+			#time {
+				background: #222222;
+				padding: 10px;
+				display: inline-block;
+			}
+			#log {
+				border: 1px solid #333333;
+				padding: 10px;
+				background: #f1f1f1;
+				color: #cccccc;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="time"></div>
+		<pre id="log"></pre>
+	</body>
+</html>
