@@ -139,14 +139,14 @@ function LocalConnection(options) {
  * @param args array Array of arguments
  */	
 	this._write = function(event, args) {
-		var data = this._getCookie();
-		var eventdata = this.id+':'+event+':'+args.join(',');
-		if (data == '') {
-			data = eventdata;
-		} else {
-			data += '&'+eventdata;
-		}
-		document.cookie = this.name + '=' + data + "; path=/";
+		var events = this._getCookie();
+		var evt = {
+			id: this.id,
+			event: event,
+			args: args
+		};
+		events.push(evt);
+		document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
 		return true;
 	}
 
@@ -157,27 +157,22 @@ function LocalConnection(options) {
  * it will return an array of events sent
  */
 	this._read = function() {
-		var data = this._getCookie();
-		if (data == '') {
+		var events = this._getCookie();
+		if (events == '') {
 			return false;
 		}
-		var events = data.split('&');
 		var ret = [];
-		// extract events that weren't sent by this transmitter and erase
-		// them from data
+		// only return events from other connections
 		for (var e in events) {
-			var eventdata = events[e].split(':');
-			if (eventdata[0] != this.id) {
+			if (events[e].id != this.id) {
 				ret.push({
-					event: eventdata[1],
-					args: eventdata[2].split(',')
+					event: events[e].event,
+					args: events[e].args
 				});
 				events.splice(e, 1);
 			}
 		}
-		// reassemble cookie and save it
-		data = events.join('&');
-		document.cookie = this.name + '=' + data + "; path=/";
+		document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
 		return ret;
 	}
 
@@ -188,7 +183,7 @@ function LocalConnection(options) {
  */
 	this._getCookie = function() {
 		var ca = document.cookie.split(';');
-		var data = '';
+		var data;
 		for (var i=0; i < ca.length; i++) {
 			var c = ca[i];
 			while (c.charAt(0) == ' ') {
@@ -196,10 +191,11 @@ function LocalConnection(options) {
 			}
 			if (c.indexOf(this.name+'=') == 0) {
 				data = c.substring(this.name.length+1, c.length);
-				return data;
+				break;
 			}
 		}
-		return data;
+		data = data || '[]';
+		return JSON.parse(data);
 	}
 
 /**
