@@ -39,7 +39,7 @@ method.
 
 ## Examples
 
-A few examples are available the `/tests` directory. **Note:** By default Chrome
+A few examples are available the `/demos` directory. **Note:** By default Chrome
 doesn't enable cookies for the `file://` protocol, so either use Firefox to
 test or set up a host.
 
