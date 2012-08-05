@@ -21,6 +21,13 @@ function LocalConnection(options) {
 	this.id = new Date().getTime();
 
 /**
+ * Log events to the console
+ *
+ * @var boolean
+ */
+	this.debug = false;
+
+/**
  * List of actions set by addCallback
  *
  * @var array
@@ -126,6 +133,7 @@ function LocalConnection(options) {
 	this._receive = function(event, args) {
 		if (this._actions[event] != undefined) {
 			for (var func in this._actions[event]) {
+				this.log('Triggering callback "'+event+'"', this._actions[event]);
 				var callback = this._actions[event][func];
 				callback.f.apply(callback.s, args);
 			}
@@ -146,6 +154,7 @@ function LocalConnection(options) {
 			args: args
 		};
 		events.push(evt);
+		this.log('Sending event', evt);
 		document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
 		return true;
 	}
@@ -216,6 +225,18 @@ function LocalConnection(options) {
 		return function () {
 			fn.apply(scope, arguments);
 		};
+	}
+
+/**
+ * Logs to the console if it exists
+ */
+	this.log = function() {
+		if (!this.debug) {
+			return;
+		}
+		if (console) {
+			console.log(Array.prototype.slice.call(arguments));
+		}
 	}
 
 	this.init(options);
