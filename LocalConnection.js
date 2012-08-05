@@ -188,7 +188,6 @@ function LocalConnection(options) {
  */
 	this._getCookie = function() {
 		var ca = document.cookie.split(';');
-		console.log(ca);
 		var data = '';
 		for (var i=0; i < ca.length; i++) {
 			var c = ca[i];
