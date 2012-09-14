@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>LocalConnection Demo: Multiple Video Players</title>
+		<meta charset="UTF-8" />
+		<script src="../LocalConnection.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+		<script src="player_sync.js"></script>
+		<script>
+			var params = { allowScriptAccess: 'always' };
+			var atts = { id: 'youtubeplayer' };
+			swfobject.embedSWF('http://www.youtube.com/v/My7r12U5rAs?enablejsapi=1&playerapiid=youtubeplayerapi&version=3',
+				'player-container', '425', '356', '8', null, null, params, atts);
+		</script>
+	</head>
+	<body>
+		<div id="player-container">
+		</div>
+		<p>Read the source, Luke.</p>
+	</body>
+</html>
