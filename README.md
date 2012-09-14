@@ -43,6 +43,17 @@ A few examples are available the `/demos` directory. **Note:** By default Chrome
 doesn't enable cookies for the `file://` protocol, so either use Firefox to
 test or set up a host.
 
+### Basic
+
+This is a very basic example which demonstrates the basics of adding
+callbacks. Open both the sender and receive file in your browser.
+
+### Video Sync
+
+This demonstrates a very simple way to only allow a single video to play
+at a time. If users opened several windows and tabs that played videos,
+this would prevent them from playing over each other.
+
 ## License
 
 Copyright (c) 2012 Jeremy Harris
