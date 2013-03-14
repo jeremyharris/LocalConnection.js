@@ -1,6 +1,6 @@
 /**
  * LocalConnection
- * 
+ *
  * Using cookies, LocalConnection allows callbacks to be triggered across browser
  * tabs and windows
  */
@@ -55,7 +55,7 @@ function LocalConnection(options) {
 
 /**
  * Sends an event with arguments
- * 
+ *
  * {{{
  * // on receiver
  * LocalConnection.addCallback('startVid', myfunction);
@@ -67,7 +67,7 @@ function LocalConnection(options) {
  * @param ...rest Other arguments as to be passed to the function
  */
 	this.send = function(event) {
-		var args = Array.prototype.slice.call(arguments, 1); 
+		var args = Array.prototype.slice.call(arguments, 1);
 		return this._write(event, args);
 	}
 
@@ -139,13 +139,13 @@ function LocalConnection(options) {
 			}
 		}
 	};
-	
+
 /**
  * Writes the cookie. Will append if there is already information
- * 
+ *
  * @param event string Event name
  * @param args array Array of arguments
- */	
+ */
 	this._write = function(event, args) {
 		var events = this._getCookie();
 		var evt = {
@@ -161,7 +161,7 @@ function LocalConnection(options) {
 
 /**
  * Reads the cookie
- * 
+ *
  * Returns false if the cookie is empty (i.e., no new data). If new data is found,
  * it will return an array of events sent
  */
@@ -240,5 +240,5 @@ function LocalConnection(options) {
 	}
 
 	this.init(options);
-	
+
 }
