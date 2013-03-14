@@ -3,7 +3,7 @@
 	<head>
 		<title>LocalConnection Receiver</title>
 		<meta charset="UTF-8" />
-		<script src="../LocalConnection.js"></script>
+		<script src="../../LocalConnection.js"></script>
 		<script>
 			this.message = 'Scoped!';
 			this.scream = function(msg) {
@@ -17,7 +17,7 @@
 			});
 			// start listening
 			t.listen();
-			
+
 			// this example uses an anonymous function
 			t.addCallback('log', function(msg) {
 				document.getElementById('log').innerHTML += msg+'<br />';
