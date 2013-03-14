@@ -65,7 +65,7 @@ function LocalConnection(options) {
  * Starts listening for events
  */
 	this.listen = function() {
-		setTimeout(this.bind(this, this._check), 100);
+		setInterval(this.bind(this, this._check), 100);
 	}
 
 /**
@@ -136,7 +136,6 @@ function LocalConnection(options) {
 				this._receive(data[e].event, data[e].args);
 			}
 		}
-		setTimeout(this.bind(this, this._check), 100);
 	}
 
 /**
