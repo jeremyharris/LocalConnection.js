@@ -21,6 +21,13 @@ function LocalConnection(options) {
 	this.id = new Date().getTime();
 
 /**
+ * Whether or not localStorage is supported. Falls back to cookies if not.
+ *
+ * @var boolean
+ */
+	this.useLocalStorage = false;
+
+/**
  * Log events to the console
  *
  * @var boolean
@@ -40,6 +47,14 @@ function LocalConnection(options) {
  * @param opts Object
  */
 	this.init = function(options) {
+		// test for localStorage
+		try {
+			localStorage.setItem(this.id, this.id);
+			localStorage.removeItem(this.id);
+			this.useLocalStorage = true;
+		} catch(e) {
+			this.useLocalStorage = false;
+		}
 		for (var o in options) {
 			this[o] = options[o];
 		}
