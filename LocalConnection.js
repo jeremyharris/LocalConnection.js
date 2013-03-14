@@ -1,8 +1,8 @@
 /**
  * LocalConnection
  *
- * Using cookies, LocalConnection allows callbacks to be triggered across browser
- * tabs and windows
+ * LocalConnection allows callbacks to be triggered across browser tabs and
+ * windows on the same domain
  */
 function LocalConnection(options) {
 

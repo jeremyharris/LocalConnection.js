@@ -1,7 +1,8 @@
 # LocalConnection
 
 LocalConnection allows you to send events across browser tabs. It uses
-cookies and is subject to their security policies.
+HTML5 `localStorage` and is subject to its security policies. If the browser
+does not support `localStorage`, cookies are used as a fallback.
 
 ## Usage
 
@@ -9,7 +10,7 @@ To communicate, there needs to be a sender and a receiver.
 
 ### Receiver
 
-To begin listening for events, set up LocalConnection and call the 
+To begin listening for events, set up LocalConnection and call the
 `listen()` method.
 
     var t = new LocalConnection({
