@@ -58,14 +58,22 @@ function LocalConnection(options) {
 		for (var o in options) {
 			this[o] = options[o];
 		}
-		this.clearCookie();
+		this.clear();
 	}
 
 /**
  * Starts listening for events
  */
 	this.listen = function() {
-		setInterval(this.bind(this, this._check), 100);
+		if (this.useLocalStorage) {
+			if (window.addEventListener) {
+				window.addEventListener('storage', this.bind(this, this._check), false);
+			} else {
+				window.attachEvent('onstorage', this.bind(this, this._check));
+			}
+		} else {
+			setInterval(this.bind(this, this._check), 100);
+		}
 	}
 
 /**
@@ -161,7 +169,7 @@ function LocalConnection(options) {
  * @param args array Array of arguments
  */
 	this._write = function(event, args) {
-		var events = this._getCookie();
+		var events = this._getEvents();
 		var evt = {
 			id: this.id,
 			event: event,
@@ -169,7 +177,11 @@ function LocalConnection(options) {
 		};
 		events.push(evt);
 		this.log('Sending event', evt);
-		document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
+		if (this.useLocalStorage) {
+			localStorage.setItem(this.name, JSON.stringify(events));
+		} else {
+			document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
+		}
 		return true;
 	}
 
@@ -180,7 +192,7 @@ function LocalConnection(options) {
  * it will return an array of events sent
  */
 	this._read = function() {
-		var events = this._getCookie();
+		var events = this._getEvents();
 		if (events == '') {
 			return false;
 		}
@@ -195,8 +207,34 @@ function LocalConnection(options) {
 				events.splice(e, 1);
 			}
 		}
-		document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
+		if (this.useLocalStorage) {
+			localStorage.setItem(this.name, JSON.stringify(events));
+		} else {
+			document.cookie = this.name + '=' + JSON.stringify(events) + "; path=/";
+		}
 		return ret;
+	}
+
+/**
+ * Gets all queued events
+ *
+ * @return string
+ */
+	this._getEvents = function() {
+		return this.useLocalStorage ? this._getLocalStorage() : this._getCookie();
+	}
+
+/**
+ * Gets raw localStorage data
+ *
+ * @return string
+ */
+	this._getLocalStorage = function() {
+		var events = localStorage.getItem(this.name);
+		if (events == null) {
+			return [];
+		}
+		return JSON.parse(events);
 	}
 
 /**
@@ -222,10 +260,14 @@ function LocalConnection(options) {
 	}
 
 /**
- * Clears the cookie
+ * Clears all events
  */
-	this.clearCookie = function() {
-		document.cookie = this.name + "=; path=/";
+	this.clear = function() {
+		if (this.useLocalStorage) {
+			localStorage.removeItem(this.name);
+		} else {
+			document.cookie = this.name + "=; path=/";
+		}
 	}
 
 /**
