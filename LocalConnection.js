@@ -155,9 +155,11 @@ function LocalConnection(options) {
 	this._receive = function(event, args) {
 		if (this._actions[event] != undefined) {
 			for (var func in this._actions[event]) {
-				this.log('Triggering callback "'+event+'"', this._actions[event]);
-				var callback = this._actions[event][func];
-				callback.f.apply(callback.s, args);
+				if (this._actions[event].hasOwnProperty(func)) {
+					this.log('Triggering callback "'+event+'"', this._actions[event]);
+					var callback = this._actions[event][func];
+					callback.f.apply(callback.s, args);
+				}
 			}
 		}
 	};
