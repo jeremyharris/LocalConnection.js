@@ -4,6 +4,14 @@ LocalConnection allows you to send events across browser tabs. It uses
 HTML5 `localStorage` and is subject to its security policies. If the browser
 does not support `localStorage`, cookies are used as a fallback.
 
+## Support
+
+[IE9 fails](https://github.com/jeremyharris/LocalConnection.js/issues/3) 
+since it does not support the `JSON` object. To enable `JSON` 
+support in IE9, add the following script to pages that use LocalConnection:
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js"></script>
+
 ## Usage
 
 To communicate, there needs to be a sender and a receiver.
